@@ -2,10 +2,11 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local RunService = game:GetService("RunService")
 
+-- สร้าง GUI ใน PlayerGui
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "KillAuraGUI"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = game.CoreGui
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui") -- เปลี่ยนจาก CoreGui มา PlayerGui
 
 local Frame = Instance.new("Frame")
 Frame.Size = UDim2.new(0, 150, 0, 60)
@@ -42,7 +43,7 @@ RunService.RenderStepped:Connect(function()
 	if not auraOn then return end
 
 	for _, enemy in pairs(Players:GetPlayers()) do
-		if enemy ~= LocalPlayer and enemy.Character and enemy.Character:FindFirstChild("Humanoid") then
+		if enemy ~= LocalPlayer and enemy.Character and enemy.Character:FindFirstChild("Humanoid") and enemy.Character:FindFirstChild("HumanoidRootPart") then
 			local dist = (enemy.Character.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 			if dist <= radius then
 				enemy.Character.Humanoid.Health = 0
